@@ -3,60 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <title>Real Estate Management System</title>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(to right, #eef2f3, #ffffff);
             margin: 0;
             padding: 0;
         }
 
-        .container {
-            width: 90%;
-            max-width: 1000px;
-            margin: auto;
-            padding: 20px;
+        /* Hero Section */
+        .hero {
+            height: 250px;
+            background-image: url("https://images.unsplash.com/photo-1560518883-ce09059eeffa");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 8px black;
         }
 
-        h1, h2 {
-            text-align: center;
+        .hero h1 {
+            background: rgba(0,0,0,0.5);
+            padding: 15px 30px;
+            border-radius: 10px;
         }
 
         /* Login Box */
         .login-box {
-            width: 300px;
-            margin: 100px auto;
+            width: 320px;
+            margin: -60px auto 0;
             background: white;
-            padding: 20px;
-            box-shadow: 0 0 10px gray;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow:
+                0 20px 40px rgba(0,0,0,0.2),
+                inset 0 0 10px rgba(255,255,255,0.6);
+            transform: perspective(1000px);
+            transition: transform 0.3s;
+        }
+
+        .login-box:hover {
+            transform: perspective(1000px) translateY(-5px);
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
         }
 
         input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
 
         button {
             width: 100%;
-            padding: 10px;
-            background: #007bff;
+            padding: 12px;
+            background: linear-gradient(to right, #007bff, #0056b3);
             color: white;
             border: none;
+            border-radius: 8px;
+            font-size: 16px;
             cursor: pointer;
+            box-shadow: 0 8px 15px rgba(0,123,255,0.4);
+            transition: all 0.3s;
         }
 
         button:hover {
-            background: #0056b3;
+            background: linear-gradient(to right, #0056b3, #003f7f);
+            box-shadow: 0 12px 20px rgba(0,123,255,0.6);
         }
 
         .error {
             color: red;
             text-align: center;
+            margin-top: 10px;
         }
 
         /* Dashboard */
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
         #dashboard {
             display: none;
         }
@@ -65,11 +105,13 @@
             width: 100%;
             border-collapse: collapse;
             background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
         }
 
@@ -78,17 +120,36 @@
             color: white;
         }
 
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
         .logout {
             float: right;
-            margin-bottom: 10px;
+            padding: 8px 15px;
+            background: crimson;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .logout:hover {
+            background: darkred;
         }
     </style>
 </head>
+
 <body>
+
+<!-- Hero Image -->
+<div class="hero">
+    <h1>OmSai Real Estate Group</h1>
+</div>
 
 <!-- Login Page -->
 <div class="login-box" id="loginBox">
-    <h2>Real Estate Login</h2>
+    <h2>Admin Login</h2>
     <input type="text" id="username" placeholder="Username">
     <input type="password" id="password" placeholder="Password">
     <button onclick="login()">Login</button>
@@ -98,7 +159,7 @@
 <!-- Dashboard -->
 <div class="container" id="dashboard">
     <button class="logout" onclick="logout()">Logout</button>
-    <h1>Real Estate Land Purchase Records</h1>
+    <h1>Land Purchase Records</h1>
 
     <table>
         <tr>
@@ -112,28 +173,28 @@
             <td>Ramesh Kumar</td>
             <td>12-03-2023</td>
             <td>45,00,000</td>
-            <td>Plot No. 21, Whitefield, Bangalore</td>
+            <td>Whitefield, Bangalore</td>
         </tr>
 
         <tr>
             <td>Anita Sharma</td>
             <td>05-07-2022</td>
             <td>60,00,000</td>
-            <td>Sector 45, Gurugram, Haryana</td>
+            <td>Sector 45, Gurugram</td>
         </tr>
 
         <tr>
             <td>Mohit Verma</td>
             <td>18-11-2021</td>
             <td>38,50,000</td>
-            <td>Near NH-48, Jaipur, Rajasthan</td>
+            <td>Jaipur, Rajasthan</td>
         </tr>
 
         <tr>
             <td>Priya Nair</td>
             <td>25-01-2024</td>
             <td>72,00,000</td>
-            <td>Kakkanad, Kochi, Kerala</td>
+            <td>Kakkanad, Kochi</td>
         </tr>
     </table>
 </div>
@@ -143,7 +204,6 @@
         const user = document.getElementById("username").value;
         const pass = document.getElementById("password").value;
 
-        // Demo credentials
         if (user === "admin" && pass === "admin123") {
             document.getElementById("loginBox").style.display = "none";
             document.getElementById("dashboard").style.display = "block";
@@ -155,9 +215,6 @@
     function logout() {
         document.getElementById("dashboard").style.display = "none";
         document.getElementById("loginBox").style.display = "block";
-        document.getElementById("username").value = "";
-        document.getElementById("password").value = "";
-        document.getElementById("errorMsg").innerText = "";
     }
 </script>
 
