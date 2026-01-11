@@ -126,6 +126,29 @@ html, body {
 .site-card button:hover {
     background: #0056b3;
 }
+
+/* MAP MODAL */
+#mapModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+}
+
+#mapContent {
+    background: white;
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+#mapContent img {
+    width: 100%;
+    border-radius: 10px;
+}
 </style>
 </head>
 
@@ -142,12 +165,16 @@ html, body {
     </div>
 </div>
 
-<!-- DASHBOARD SECTION -->
+<!-- DASHBOARD -->
 <div id="dashboard">
     <h1>Our Real Estate Sites</h1>
 
     <div class="site-grid">
-        <div class="site-card"><h3>OmSai Greens</h3><button onclick="openSite()">Click here for full data</button></div>
+        <div class="site-card">
+            <h3>OmSai Greens</h3>
+            <button onclick="openMap()">Click here for full data</button>
+        </div>
+
         <div class="site-card"><h3>OmSai Heights</h3><button onclick="openSite()">Click here for full data</button></div>
         <div class="site-card"><h3>OmSai Residency</h3><button onclick="openSite()">Click here for full data</button></div>
         <div class="site-card"><h3>OmSai Enclave</h3><button onclick="openSite()">Click here for full data</button></div>
@@ -160,16 +187,30 @@ html, body {
     </div>
 </div>
 
+<!-- MAP MODAL -->
+<div id="mapModal">
+    <div id="mapContent">
+        <h2 style="text-align:center; margin-bottom:15px;">
+            GOLDEN ACRE BY DHANMAY SINGH BHADORIA
+        </h2>
+
+        <img src="golden-acre-map.png" alt="Golden Acre Layout Map">
+
+        <button onclick="closeMap()"
+                style="margin:15px auto 0; display:block; padding:10px 20px;
+                background:#dc3545; color:white; border:none; border-radius:6px; cursor:pointer;">
+            Close
+        </button>
+    </div>
+</div>
+
 <script>
 function login() {
     const u = document.getElementById("username").value;
     const p = document.getElementById("password").value;
 
     if (u === "admin" && p === "omsai123") {
-        // Hide login page
         document.getElementById("loginSection").style.display = "none";
-        
-        // Show dashboard
         document.getElementById("dashboard").style.display = "block";
     } else {
         document.getElementById("errorMsg").innerText = "Invalid Username or Password";
@@ -177,10 +218,17 @@ function login() {
 }
 
 function openSite() {
-    alert("This will open full site data later.");
+    alert("Full site data module will be added later.");
+}
+
+function openMap() {
+    document.getElementById("mapModal").style.display = "block";
+}
+
+function closeMap() {
+    document.getElementById("mapModal").style.display = "none";
 }
 </script>
-
 
 </body>
 </html>
