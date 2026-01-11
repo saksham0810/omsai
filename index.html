@@ -101,16 +101,6 @@ html, body {
     margin:0 auto;
     border-radius:10px;
 }
-.back-btn {
-    margin:20px auto;
-    display:block;
-    padding:10px 20px;
-    background:#dc3545;
-    color:white;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-}
 </style>
 </head>
 
@@ -152,32 +142,47 @@ html, body {
 <div id="projectPage">
     <h1>GOLDEN ACRE BY DHANMAY SINGH BHADORIA</h1>
     <img src="golden-acre-map.png" alt="Golden Acre Layout">
-    <button class="back-btn" onclick="goBack()">← Back to All Sites</button>
 </div>
 
 <script>
+function show(section) {
+    loginSection.style.display = "none";
+    dashboard.style.display = "none";
+    projectPage.style.display = "none";
+    section.style.display = "block";
+}
+
+/* LOGIN */
 function login() {
     if (username.value === "admin" && password.value === "omsai123") {
-        loginSection.style.display = "none";
-        dashboard.style.display = "block";
+        history.pushState({page:"dashboard"}, "", "#dashboard");
+        show(dashboard);
     } else {
         errorMsg.innerText = "Invalid Username or Password";
     }
 }
 
+/* OPEN PROJECT */
+function openProject() {
+    history.pushState({page:"project"}, "", "#golden-acre");
+    show(projectPage);
+}
+
+/* OTHER SITES */
 function openSite() {
     alert("This site data will be added later.");
 }
 
-function openProject() {
-    dashboard.style.display = "none";
-    projectPage.style.display = "block";
-}
-
-function goBack() {
-    projectPage.style.display = "none";
-    dashboard.style.display = "block";
-}
+/* HANDLE CHROME BACK */
+window.onpopstate = function(event) {
+    if (!event.state) {
+        show(loginSection);
+    } else if (event.state.page === "dashboard") {
+        show(dashboard);
+    } else if (event.state.page === "project") {
+        show(projectPage);
+    }
+};
 </script>
 
 </body>
