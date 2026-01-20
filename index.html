@@ -12,7 +12,7 @@ html, body {
     font-family: "Segoe UI", Arial, sans-serif;
 }
 
-/* LOGIN */
+/* ---------------- LOGIN ---------------- */
 .home {
     height:100vh;
     background:url("home-bg.png") center/cover no-repeat;
@@ -54,7 +54,7 @@ html, body {
 }
 .error { color:red; margin-top:10px; }
 
-/* DASHBOARD */
+/* ---------------- DASHBOARD ---------------- */
 #dashboard {
     display:none;
     padding:40px;
@@ -83,7 +83,7 @@ html, body {
     cursor:pointer;
 }
 
-/* PROJECT PAGE */
+/* ---------------- PROJECT PAGE ---------------- */
 #projectPage {
     display:none;
     padding:30px;
@@ -94,12 +94,34 @@ html, body {
     text-align:center;
     margin-bottom:20px;
 }
-#projectPage img {
-    width:100%;
-    max-width:1200px;
-    display:block;
-    margin:0 auto;
-    border-radius:10px;
+
+/* MAP WRAPPER */
+.map-wrapper {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* PLOTS */
+.plot {
+    position:absolute;
+    border:2px solid transparent;
+}
+.plot:hover {
+    border-color:rgba(0,123,255,0.7);
+}
+
+/* TOOLTIP */
+.tooltip {
+    position: absolute;
+    background:#222;
+    color:#fff;
+    padding:10px;
+    border-radius:6px;
+    font-size:14px;
+    display:none;
+    pointer-events:none;
+    z-index:9999;
 }
 </style>
 </head>
@@ -125,36 +147,47 @@ html, body {
             <h3>GOLDEN ACRE BY DHANMAY SINGH BHADORIA</h3>
             <button onclick="openProject()">Click here for full data</button>
         </div>
-
-        <div class="site-card"><h3>OmSai Heights</h3><button onclick="openSite()">Click here for full data</button></div>
-        <div class="site-card"><h3>OmSai Residency</h3><button onclick="openSite()">Click here for full data</button></div>
-        <div class="site-card"><h3>OmSai Enclave</h3><button onclick="openSite()">Click here for full data</button></div>
-        <div class="site-card"><h3>OmSai Meadows</h3><button onclick="openSite()">Click here for full data</button></div>
-        <div class="site-card"><h3>OmSai Paradise</h3><button onclick="openSite()">Click here for full data</button></div>
-        <div class="site-card"><h3>OmSai Villas</h3><button onclick="openSite()">Click here for full data</button></div>
-        <div class="site-card"><h3>OmSai Heritage</h3><button onclick="openSite()">Click here for full data</button></div>
-        <div class="site-card"><h3>OmSai Park</h3><button onclick="openSite()">Click here for full data</button></div>
-        <div class="site-card"><h3>OmSai County</h3><button onclick="openSite()">Click here for full data</button></div>
     </div>
 </div>
 
 <!-- PROJECT PAGE -->
 <div id="projectPage">
     <h1>GOLDEN ACRE BY DHANMAY SINGH BHADORIA</h1>
-    <img src="golden-acre-map.png" alt="Golden Acre Layout">
+
+    <div class="map-wrapper">
+        <img src="golden-acre-map.png" width="100%" alt="Golden Acre Layout">
+
+        <!-- Plot 1 -->
+        <div class="plot"
+             style="top:55%; left:20%; width:6%; height:10%;"
+             data-plot="Plot 1"
+             data-owner="Ramesh Kumar"
+             data-price="₹12,00,000"
+             data-paid="₹8,00,000"
+             data-pending="₹4,00,000"></div>
+
+        <!-- Plot 2 -->
+        <div class="plot"
+             style="top:55%; left:28%; width:6%; height:10%;"
+             data-plot="Plot 2"
+             data-owner="Anita Sharma"
+             data-price="₹10,50,000"
+             data-paid="₹10,50,000"
+             data-pending="₹0"></div>
+
+        <!-- Tooltip -->
+        <div class="tooltip" id="tooltip"></div>
+    </div>
 </div>
 
 <script>
-/* ALWAYS RESET APP WHEN PAGE IS SHOWN (BACK/FORWARD FIX) */
-window.addEventListener("pageshow", function () {
-    resetApp();
-});
+/* RESET ON LOAD */
+window.addEventListener("load", resetApp);
 
 function resetApp() {
     loginSection.style.display = "flex";
     dashboard.style.display = "none";
     projectPage.style.display = "none";
-
     username.value = "";
     password.value = "";
     errorMsg.innerText = "";
@@ -176,10 +209,28 @@ function openProject() {
     projectPage.style.display = "block";
 }
 
-/* OTHER SITES */
-function openSite() {
-    alert("This site data will be added later.");
-}
+/* TOOLTIP LOGIC */
+const tooltip = document.getElementById("tooltip");
+
+document.querySelectorAll(".plot").forEach(plot => {
+    plot.addEventListener("mousemove", e => {
+        tooltip.style.display = "block";
+        tooltip.style.left = e.pageX + 15 + "px";
+        tooltip.style.top = e.pageY + 15 + "px";
+
+        tooltip.innerHTML = `
+            <strong>${plot.dataset.plot}</strong><br>
+            Owner: ${plot.dataset.owner}<br>
+            Price: ${plot.dataset.price}<br>
+            Paid: ${plot.dataset.paid}<br>
+            Pending: ${plot.dataset.pending}
+        `;
+    });
+
+    plot.addEventListener("mouseleave", () => {
+        tooltip.style.display = "none";
+    });
+});
 </script>
 
 </body>
